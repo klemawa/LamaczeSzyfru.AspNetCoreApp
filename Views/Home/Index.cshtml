@@ -2,7 +2,7 @@
     ViewData["Title"] = "Szyfrowanie";
 }
 
-<div class="card SzyfrCezara">
+<div class="card SzyfrCezara"> 
     <h2>Szyfrowanie Cezara</h2>
     <p>Podaj tekst do zaszyfrowania:</p>
     <input type="text" id="EncryptCezarInput" class="szyfrowanieTekstuCezara-screen">
@@ -46,3 +46,98 @@
     <p id="odszyfrowanyVigenereTekst"></p>
 </div>
 
+@section Scripts
+    {
+    <script type="text/javascript">
+        function encryptCezar() {
+            var inputText = $("#EncryptCezarInput").val();
+            var shiftedText = shiftText(inputText, 3); //przesunięcie o 3 miejsca 
+            $("#zaszyfrowanyCezarTekst").text(shiftedText);
+        }
+
+        function decryptCezar() {
+            var inputText = $("#DecryptCezarInput").val();
+            var shiftedText = shiftText(inputText, -3); //-3 bo odszyfrowujemy w drugą stronę
+            $("#odszyfrowanyCezarTekst").text(shiftedText);
+        }
+
+        function encryptVigenere() {
+            var inputText = $("#EncryptVigenereInput").val();
+            var key = $("#VigenereKey").val();
+            var encryptedText = vigenereEncrypt(inputText, key);
+            $("#zaszyfrowanyVigenereTekst").text(encryptedText);
+        }
+
+        function decryptVigenere() {
+            var inputText = $("#DecryptVigenereInput").val();
+            var key = $("#VigenereKeyDecrypt").val();
+            var decryptedText = vigenereDecrypt(inputText, key);
+            $("#odszyfrowanyVigenereTekst").text(decryptedText);
+        }
+
+        
+        function shiftText(text, shift) {
+            var result = "";//wynik początkowo pusty
+            for (var i = 0; i < text.length; i++) {
+                var charCode = text.charCodeAt(i);//pobiera się kod Unicode dla akutalnego znaku w tekście 
+                if (charCode >= 65 && charCode <= 90) { //sprzawdzamy czy duża litera 
+                    result += String.fromCharCode(((charCode - 65 + shift + 26) % 26) + 65); // tutaj jeśli jest to duża litera to oblicza się nowy kod Unicode 
+                } else if (charCode >= 97 && charCode <= 122) { // tutaj jak mała litera to tak samo
+                    result += String.fromCharCode(((charCode - 97 + shift + 26) % 26) + 97);
+                } else {
+                    result += text[i];
+                }
+            }
+            return result;
+        }
+        //funkcja szyfrująca vigener`a
+        /*function vigenereEncrypt(plainText, key) {
+            var result = ""; 
+            var keyIndex = 0;
+
+            for (var i = 0; i < plainText.length; i++) {
+                var charCode = plainText.charCodeAt(i); 
+
+                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) { 
+                    var isUpperCase = (charCode >= 65 && charCode <= 90);
+                    var base = isUpperCase ? 65 : 97;  
+                    var shift = key.toUpperCase().charCodeAt(keyIndex) - 65;
+                    var shiftedCharCode = (charCode - base + shift + 26) % 26 + base;
+
+                    result += String.fromCharCode(shiftedCharCode);
+                    keyIndex = (keyIndex + 1) % key.length;
+                } else {
+                    result += plainText[i];
+                }
+            }
+
+            return result;
+        }
+       
+        //funkcja odpowiedzialna za złamanie szyfru vigenera
+        function vigenereDecrypt(zaszyfrowanyTekst, key) {
+            var result = "";
+            var keyIndex = 0;
+
+            for (var i = 0; i < zaszyfrowanyTekst.length; i++) {
+                var charCode = zaszyfrowanyTekst.charCodeAt(i);
+
+                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+                    var isUpperCase = (charCode >= 65 && charCode <= 90);
+                    var base = isUpperCase ? 65 : 97;
+                    var shift = klucz.toUpperCase().charCodeAt(kluczIndex) - 65;
+                    var shiftedCharCode = (charCode - base - shift + 26) % 26 + base;
+
+                    result += String.fromCharCode(shiftedCharCode);
+                    kluczIndex = (kluczIndex + 1) % klucz.length;
+                } else {
+                    result += zaszyfrowanyTekst[i];
+                }
+            }
+
+            return result;
+        }*/
+
+
+    </script>
+}
