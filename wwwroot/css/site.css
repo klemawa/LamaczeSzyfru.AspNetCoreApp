@@ -1,0 +1,83 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background: linear-gradient(45deg, #3498db, #2c3e50); /* Gradientowe t³o */
+    animation: backgroundPlyn 10s infinite alternate; /* Animacja p³yniêcia t³a */
+    margin-bottom: 60px;
+}
+
+@keyframes backgroundPlyn {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+.card {
+    margin: 20px; /* Margines wokó³ karty */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+    /* Dodaj style dla mniejszych ekranów */
+    .card {
+        width: 80%; /* Przyk³adowe dostosowanie szerokoœci karty dla mniejszych ekranów */
+    }
+}
+
+}
+.lamaczSzyfru-screen {
+    height: 50px;
+    text-align: left;
+    padding: 20px 0;
+    font-size: 5rem;
+    color: #000;
+    border: 2px solid black;
+    width: 25%;
+}
+
+button {
+    height: 50px; /* Zmienione na 50px, aby dopasowaæ do wysokoœci .lamaczSzyfru-screen */
+    font-size: 2rem;
+    color: #fff;
+    padding: 10px 20px; /* Dodane, aby dostosowaæ padding przycisku */
+    background-color: #28a745; /* Dostosowane t³o przycisku do koloru bg-success */
+    border: none; /* Usuniêcie obramowania przycisku */
+    cursor: pointer;
+}
+@keyframes migaj {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.button-migaj {
+    animation: migaj 2s infinite; /* Migaj co 2 sekundy */
+}
+
+
+.lamaczSzyfru-buttons {
+    margin-top: 10px; /* Dodane, aby dodaæ odstêp miêdzy przyciskiem a poprzednim elementem */
+}
