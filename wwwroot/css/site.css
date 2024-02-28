@@ -24,13 +24,18 @@ body {
         background-position: 0% 0%;
     }
 
-    100% {
-        background-position: 100% 100%;
+    15% {
+        background-position: 25% 25%;
     }
 }
 .card {
-    margin: 20px; /* Margines wokó³ karty */
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 45%; /* Zmniejszenie szerokoœci karty na 45% */
+    display: inline-block; /* Pozwala na umieszczenie kart obok siebie */
 }
 @media (max-width: 768px) {
     /* Dodaj style dla mniejszych ekranów */
@@ -39,44 +44,72 @@ body {
     }
 }
 
-}
-.lamaczSzyfru-screen {
+.lamaczSzyfruCezara-screen {
     height: 50px;
     text-align: left;
-    padding: 20px 0;
-    font-size: 5rem;
-    color: #000;
-    border: 2px solid black;
-    width: 25%;
+    padding: 10px; /* Redukcja paddingu, aby tekst by³ bardziej skoncentrowany */
+    font-size: 2rem; /* Redukcja rozmiaru czcionki dla lepszej czytelnoœci */
+    color: #333; /* Ciemny kolor tekstu dla kontrastu */
+    border: 2px solid #333; /* Dodanie jednolitej obwódki wokó³ pola tekstowego */
+    width: 100%; /* Zmiana szerokoœci na 100%, aby zajmowa³o pe³n¹ szerokoœæ karty */
 }
+.szyfrowanieTekstuCezara-screen {
+    height: 50px;
+    text-align: left;
+    padding: 10px; /* Redukcja paddingu, aby tekst by³ bardziej skoncentrowany */
+    font-size: 2rem; /* Redukcja rozmiaru czcionki dla lepszej czytelnoœci */
+    color: #333; /* Ciemny kolor tekstu dla kontrastu */
+    border: 2px solid #333; /* Dodanie jednolitej obwódki wokó³ pola tekstowego */
+    width: 100%; /* Zmiana szerokoœci na 100%, aby zajmowa³o pe³n¹ szerokoœæ karty */
+}
+.lamaczSzyfruVigenerea-screen {
+    height: 50px;
+    text-align: left;
+    padding: 10px; /* Redukcja paddingu, aby tekst by³ bardziej skoncentrowany */
+    font-size: 2rem; /* Redukcja rozmiaru czcionki dla lepszej czytelnoœci */
+    color: #333; /* Ciemny kolor tekstu dla kontrastu */
+    border: 2px solid #333; /* Dodanie jednolitej obwódki wokó³ pola tekstowego */
+    width: 100%; /* Zmiana szerokoœci na 100%, aby zajmowa³o pe³n¹ szerokoœæ karty */
+}
+
+.szyfrowanieTekstuVigenerea-screen {
+    height: 50px;
+    text-align: left;
+    padding: 10px; /* Redukcja paddingu, aby tekst by³ bardziej skoncentrowany */
+    font-size: 2rem; /* Redukcja rozmiaru czcionki dla lepszej czytelnoœci */
+    color: #333; /* Ciemny kolor tekstu dla kontrastu */
+    border: 2px solid #333; /* Dodanie jednolitej obwódki wokó³ pola tekstowego */
+    width: 100%; /* Zmiana szerokoœci na 100%, aby zajmowa³o pe³n¹ szerokoœæ karty */
+}
+
 
 button {
-    height: 50px; /* Zmienione na 50px, aby dopasowaæ do wysokoœci .lamaczSzyfru-screen */
+    height: 50px;
     font-size: 2rem;
     color: #fff;
-    padding: 10px 20px; /* Dodane, aby dostosowaæ padding przycisku */
-    background-color: #28a745; /* Dostosowane t³o przycisku do koloru bg-success */
-    border: none; /* Usuniêcie obramowania przycisku */
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
-@keyframes migaj {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
-
-    100% {
-        opacity: 1;
-    }
+h2 {
+    margin-bottom: 10px;
 }
 
-.button-migaj {
-    animation: migaj 2s infinite; /* Migaj co 2 sekundy */
+/*Dodanie Odstêpu Miêdzy Kartami */
+.card + .card {
+    margin-left: 20px; /* Odstêp miêdzy kartami */
 }
 
+/* Dodanie Górnego Marginesu dla Drugiego Nag³ówka */
+h2:nth-child(2) {
+    margin-top: 40px; /* Odstêp miêdzy nag³ówkiem a drug¹ kart¹ */
+}
+
+.szyfrowanieTekstu-buttons {
+    margin-top: 10px; /* Dodane, aby dodaæ odstêp miêdzy przyciskiem a poprzednim elementem */
+}
 
 .lamaczSzyfru-buttons {
     margin-top: 10px; /* Dodane, aby dodaæ odstêp miêdzy przyciskiem a poprzednim elementem */

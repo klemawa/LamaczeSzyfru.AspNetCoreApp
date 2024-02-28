@@ -2,12 +2,47 @@
     ViewData["Title"] = "Szyfrowanie";
 }
 
-<div class="card mt-5">
-    <h2>Szyfr Cezara</h2>
+<div class="card SzyfrCezara">
+    <h2>Szyfrowanie Cezara</h2>
     <p>Podaj tekst do zaszyfrowania:</p>
-    <input type="text" id="ScreenInput" class="lamaczSzyfru-screen" disabled="disabled">
-    <div class="lamaczSzyfru-buttons">
-        <button type="button" class="btn bg-success button-migaj">Zaszyfruj</button>
+    <input type="text" id="EncryptCezarInput" class="szyfrowanieTekstuCezara-screen">
+    <div class="szyfrowanieTekstu-buttons">
+        <button type="button" class="btn bg-success" onclick="encryptCezar()">Zaszyfruj</button>
     </div>
-    <p id="zaszyfrowanyTekst"></p>
+    <p id="zaszyfrowanyCezarTekst"></p>
 </div>
+
+<div class="card OdszyfrowanieCezara">
+    <h2>Łamacz Cezara</h2>
+    <p>Podaj tekst do odszyfrowania:</p>
+    <input type="text" id="DecryptCezarInput" class="lamaczSzyfruCezara-screen">
+    <div class="lamaczSzyfru-buttons">
+        <button type="button" class="btn bg-success button" onclick="decryptCezar()">Odszyfruj</button>
+    </div>
+    <p id="odszyfrowanyCezarTekst"></p>
+</div>
+
+<div class="card SzyfrowanieVigenerea">
+    <h2>Szyfrowanie Vigenere</h2>
+    <p>Podaj tekst do zaszyfrowania:</p>
+    <input type="text" id="EncryptVigenereInput" class="szyfrowanieTekstuVigenerea-screen">
+    <p>Podaj klucz:</p>
+    <input type="text" id="VigenereKey" class="szyfrowanieTekstuVigenerea-key">
+    <div class="szyfrowanieTekstu-buttons">
+        <button type="button" class="btn bg-success button" onclick="encryptVigenere()">Zaszyfruj</button>
+    </div>
+    <p id="zaszyfrowanyVigenereTekst"></p>
+</div>
+
+<div class="card OdszyfrowanieVigenerea">
+    <h2>Łamacz Vigenere</h2>
+    <p>Podaj tekst do odszyfrowania:</p>
+    <input type="text" id="DecryptVigenereInput" class="lamaczSzyfruVigenerea-screen">
+    <p>Podaj klucz:</p>
+    <input type="text" id="VigenereKeyDecrypt" class="lamaczSzyfruVigenerea-key">
+    <div class="lamaczSzyfru-buttons">
+        <button type="button" class="btn bg-success button" onclick="decryptVigenere()">Odszyfruj</button>
+    </div>
+    <p id="odszyfrowanyVigenereTekst"></p>
+</div>
+
