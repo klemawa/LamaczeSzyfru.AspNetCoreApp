@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Szyfrowanie";
 }
+<div id="errorMessage"></div>
 <div class="card-container">
     <!--Szyfr Cezara-->
     <div class="card SzyfrCezara">
@@ -21,7 +22,7 @@
         <p>Podaj tekst do odszyfrowania:</p>
         <input type="text" id="DecryptCezarInput" class="lamaczSzyfruCezara-screen">
         <p>Podaj klucz przesunięcia:</p>
-        <input type="number" id="CezarKey" class="szyfrowanieTekstuCezara-key">
+        <input type="number" id="CezarKeyDecrypt" class="szyfrowanieTekstuCezara-key">
         <div class="lamaczSzyfru-buttons">
             <button type="button" class="btn bg-success button" onclick="decryptCezar()">Odszyfruj</button>
         </div>
@@ -54,8 +55,19 @@
         <p id="odszyfrowanyVigenereTekst"></p>
     </div>
 
-    <div id="errorMessage" style="color: red; display: none;"></div>
+    <!--Automatyczny Łamacz Cezara-->
+    <div class="card automatyczneOdszyfrowanieCezara">
+        <h2>Automatyczny Łamacz Cezara</h2>
+        <p>Podaj tekst do odszyfrowania:</p>
+        <input type="text" id="DecryptAutoCezarInput" class="lamaczSzyfruCezara-screen">
+        <div class="autoLamacz-button">
+            <button type="button" class="btn bg-success button" onclick="automaticDecryptCezar()">Automatyczne Odszyfrowanie</button>
+        </div>
+        <p>Znalezione słowa:</p>
+        <p id="odszyfrowanyCezarTekst2"></p>
+    </div>
 </div>
+
 
 @*<div class="navigation-buttons">
     <button class="btn bg-success" onclick="previousCard()">&#8249; Poprzednia</button>
@@ -68,34 +80,42 @@
     <script type="text/javascript">
         //zmienna globalna stała, te przesunięcie cezara o 3
         const CEZAR_SHIFT = 3;
+        //funkcja czyszczenia komunikatu błedu po3 sekundach
+        function showErrorMessage(message) {
+            var errorMessageContainer = $("#errorMessage");
+            errorMessageContainer.text(message).show();
 
+            setTimeout(function () {
+                errorMessageContainer.fadeOut("slow");
+            }, 3000);
+        }
         // szyfrowanie cezara
         function encryptCezar() {
             var inputText = $("#EncryptCezarInput").val();
             var key = parseInt($("#CezarKey").val());
 
             if (isNaN(key)) {
-                showError("Wprowadź poprawny klucz (liczbę całkowitą).");
+                showErrorMessage("Wprowadź poprawny klucz (liczbę całkowitą).");
                 return;
             }
 
             var shiftedText = shiftText(inputText, key);
             $("#zaszyfrowanyCezarTekst").text(shiftedText);
-            $("#EncryptCezarInput").val("");
+            $("#EncryptCezarInput, #CezarKey").val("");
         }
         // łamanie szyfru cezara
         function decryptCezar() {
             var inputText = $("#DecryptCezarInput").val();
-            var key = parseInt($("#CezarKey").val());
+            var key = parseInt($("#CezarKeyDecrypt").val());
 
             if (isNaN(key)) {
-                showError("Wprowadź poprawny klucz (liczbę całkowitą).");
+                showErrorMessage("Wprowadź poprawny klucz (liczbę całkowitą).");
                 return;
             }
 
             var shiftedText = shiftText(inputText, -key);
             $("#odszyfrowanyCezarTekst").text(shiftedText);
-            $("#DecryptCezarInput").val("");
+            $("#DecryptCezarInput, #CezarKeyDecrypt").val("");
         }
 
         // szyfrowanie vigenera
@@ -104,14 +124,13 @@
             const key = getInputText("VigenereKey");
 
             if (!validateAlphabetic(key)) {
-                showError("Wprowadź poprawny klucz (tylko litery alfabetu angielskiego).");
+                showErrorMessage("Wprowadź poprawny klucz (tylko litery alfabetu angielskiego).");
                 return;
             }
 
             const encryptedText = vigenereEncrypt(inputText, key);
             displayResult("zaszyfrowanyVigenereTekst", encryptedText);
-            clearInput("EncryptVigenereInput");
-            clearInput("VigenereKey");
+            clearInput("EncryptVigenereInput", "VigenereKey");
         }
         // łamanie szyfru vigenera
         function decryptVigenere() {
@@ -119,14 +138,43 @@
             const key = getInputText("VigenereKeyDecrypt");
 
             if (!validateAlphabetic(key)) {
-                showError("Wprowadź poprawny klucz (tylko litery alfabetu angielskiego).");
+                showErrorMessage("Wprowadź poprawny klucz (tylko litery alfabetu angielskiego).");
                 return;
             }
 
             const decryptedText = vigenereDecrypt(inputText, key);
             displayResult("odszyfrowanyVigenereTekst", decryptedText);
-            clearInput("DecryptVigenereInput");
-            clearInput("VigenereKeyDecrypt");
+            clearInput("DecryptVigenereInput", "VigenereKeyDecrypt");
+        }
+        //automatyczne łamanie szyfru cezara
+        function automaticDecryptCezar() {
+            var cipherText = $("#DecryptAutoCezarInput").val();
+            var decryptedTextContainer = $("#odszyfrowanyCezarTekst2");
+            var keyInput = $("#CezarKeyDecrypt");
+            decryptedTextContainer.text("");
+
+            for (var key = 1; key <= 25; key++) {
+                var decryptedText = shiftText(cipherText, -key);
+                var result = "Próba z kluczem " + key + ": " + decryptedText;
+                decryptedTextContainer.append(result + "<br>");
+
+                // jeżeli będzie sensowne słowo ustawi je w polu wyjścia
+                if (isDecryptedTextSensible(decryptedText)) {
+                    keyInput.val(key);
+                    break;
+                }
+            }
+        }
+        function isDecryptedTextSensible(text) {
+            var commonWords = ["the", "and", "is", "in", "it","love"]; //lista przykładowych popularnych słów
+
+            for (var i = 0; i < commonWords.length; i++) {
+                if (text.toLowerCase().includes(commonWords[i])) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // funkcja przesuwająca 

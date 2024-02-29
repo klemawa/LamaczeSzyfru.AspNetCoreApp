@@ -30,20 +30,30 @@ body {
 }
 .card-container {
     display: flex;
-    flex-direction: column; /* ustawienia aby karty by³y pod sob¹ */
-    align-items: center; /* wyœrodkowanie kart w osi poziomej */
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
-    width: 300px; 
-    margin-bottom: 20px;
+    width: 300px;
+    margin: 10px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
-
 }
+
+#errorMessage {
+    color: red;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
 
 .lamaczSzyfruCezara-screen {
     height: 50px;
@@ -112,4 +122,7 @@ h2:nth-child(2) {
 
 .lamaczSzyfru-buttons {
     margin-top: 10px; 
+}
+.autoLamacz-button {
+    margin-top: 10px; /* sodstêp miêdzy przyciskiem a poprzednim elementem */
 }
