@@ -14,8 +14,8 @@ html {
 }
 
 body {
-    background: linear-gradient(45deg, #3498db, #2c3e50); /* Gradientowe t³o */
-    animation: backgroundPlyn 10s infinite alternate; /* Animacja p³yniêcia t³a */
+    background: linear-gradient(45deg, #3498db, #2c3e50); /* gradientowe t³o */
+    animation: backgroundPlyn 10s infinite alternate; /* animacja p³yniêcia t³a */
     margin-bottom: 60px;
 }
 
@@ -28,20 +28,21 @@ body {
         background-position: 25% 25%;
     }
 }
+.card-container {
+    display: flex;
+    flex-direction: column; /* ustawienia aby karty by³y pod sob¹ */
+    align-items: center; /* wyœrodkowanie kart w osi poziomej */
+}
+
 .card {
-    margin: 20px;
-    padding: 20px;
+    width: 300px; 
+    margin-bottom: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 45%; /* Zmniejszenie szerokoœci karty na 45% */
-    display: inline-block; /* Pozwala na umieszczenie kart obok siebie */
-}
-@media (max-width: 768px) {
-    /* Dodaj style dla mniejszych ekranów */
-    .card {
-        width: 80%; /* Przyk³adowe dostosowanie szerokoœci karty dla mniejszych ekranów */
-    }
+    padding: 20px;
+    text-align: center;
+
 }
 
 .lamaczSzyfruCezara-screen {
@@ -82,7 +83,6 @@ body {
     width: 100%; /* Zmiana szerokoœci na 100%, aby zajmowa³o pe³n¹ szerokoœæ karty */
 }
 
-
 button {
     height: 50px;
     font-size: 2rem;
@@ -97,20 +97,19 @@ h2 {
     margin-bottom: 10px;
 }
 
-/*Dodanie Odstêpu Miêdzy Kartami */
 .card + .card {
-    margin-left: 20px; /* Odstêp miêdzy kartami */
+    margin-left: 20px; /* odstêp miêdzy kartami */
 }
 
-/* Dodanie Górnego Marginesu dla Drugiego Nag³ówka */
+
 h2:nth-child(2) {
-    margin-top: 40px; /* Odstêp miêdzy nag³ówkiem a drug¹ kart¹ */
+    margin-top: 40px; /* odstêp miêdzy nag³ówkiem a drug¹ kart¹ */
 }
 
 .szyfrowanieTekstu-buttons {
-    margin-top: 10px; /* Dodane, aby dodaæ odstêp miêdzy przyciskiem a poprzednim elementem */
+    margin-top: 10px; /* sodstêp miêdzy przyciskiem a poprzednim elementem */
 }
 
 .lamaczSzyfru-buttons {
-    margin-top: 10px; /* Dodane, aby dodaæ odstêp miêdzy przyciskiem a poprzednim elementem */
+    margin-top: 10px; 
 }

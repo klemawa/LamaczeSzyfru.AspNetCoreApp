@@ -1,108 +1,164 @@
 ﻿@{
     ViewData["Title"] = "Szyfrowanie";
 }
-
-<div class="card SzyfrCezara"> 
-    <h2>Szyfrowanie Cezara</h2>
-    <p>Podaj tekst do zaszyfrowania:</p>
-    <input type="text" id="EncryptCezarInput" class="szyfrowanieTekstuCezara-screen">
-    <div class="szyfrowanieTekstu-buttons">
-        <button type="button" class="btn bg-success" onclick="encryptCezar()">Zaszyfruj</button>
+<div class="card-container">
+    <!--Szyfr Cezara-->
+    <div class="card SzyfrCezara">
+        <h2>Szyfrowanie Cezara</h2>
+        <p>Podaj tekst do zaszyfrowania:</p>
+        <input type="text" id="EncryptCezarInput" class="szyfrowanieTekstuCezara-screen">
+        <p>Podaj klucz przesunięcia:</p>
+        <input type="number" id="CezarKey" class="szyfrowanieTekstuCezara-key">
+        <div class="szyfrowanieTekstu-buttons">
+            <button type="button" class="btn bg-success" onclick="encryptCezar()">Zaszyfruj</button>
+        </div>
+        <p id="zaszyfrowanyCezarTekst"></p>
     </div>
-    <p id="zaszyfrowanyCezarTekst"></p>
+
+    <!--Łamacz Cezara-->
+    <div class="card OdszyfrowanieCezara">
+        <h2>Łamacz Cezara</h2>
+        <p>Podaj tekst do odszyfrowania:</p>
+        <input type="text" id="DecryptCezarInput" class="lamaczSzyfruCezara-screen">
+        <p>Podaj klucz przesunięcia:</p>
+        <input type="number" id="CezarKey" class="szyfrowanieTekstuCezara-key">
+        <div class="lamaczSzyfru-buttons">
+            <button type="button" class="btn bg-success button" onclick="decryptCezar()">Odszyfruj</button>
+        </div>
+        <p id="odszyfrowanyCezarTekst"></p>
+    </div>
+
+    <!--Szyfr Vigener`a-->
+    <div class="card SzyfrowanieVigenerea">
+        <h2>Szyfrowanie Vigenere</h2>
+        <p>Podaj tekst do zaszyfrowania:</p>
+        <input type="text" id="EncryptVigenereInput" class="szyfrowanieTekstuVigenerea-screen">
+        <p>Podaj klucz w postaci słowa:</p>
+        <input type="text" id="VigenereKey" class="szyfrowanieTekstuVigenerea-key">
+        <div class="szyfrowanieTekstu-buttons">
+            <button type="button" class="btn bg-success button" onclick="encryptVigenere()">Zaszyfruj</button>
+        </div>
+        <p id="zaszyfrowanyVigenereTekst"></p>
+    </div>
+
+    <!--Łamacz Vigener`a-->
+    <div class="card OdszyfrowanieVigenerea">
+        <h2>Łamacz Vigenere</h2>
+        <p>Podaj tekst do odszyfrowania:</p>
+        <input type="text" id="DecryptVigenereInput" class="lamaczSzyfruVigenerea-screen">
+        <p>Podaj klucz w postaci słowa:</p>
+        <input type="text" id="VigenereKeyDecrypt" class="lamaczSzyfruVigenerea-key">
+        <div class="lamaczSzyfru-buttons">
+            <button type="button" class="btn bg-success button" onclick="decryptVigenere()">Odszyfruj</button>
+        </div>
+        <p id="odszyfrowanyVigenereTekst"></p>
+    </div>
+
+    <div id="errorMessage" style="color: red; display: none;"></div>
 </div>
 
-<div class="card OdszyfrowanieCezara">
-    <h2>Łamacz Cezara</h2>
-    <p>Podaj tekst do odszyfrowania:</p>
-    <input type="text" id="DecryptCezarInput" class="lamaczSzyfruCezara-screen">
-    <div class="lamaczSzyfru-buttons">
-        <button type="button" class="btn bg-success button" onclick="decryptCezar()">Odszyfruj</button>
-    </div>
-    <p id="odszyfrowanyCezarTekst"></p>
-</div>
+@*<div class="navigation-buttons">
+    <button class="btn bg-success" onclick="previousCard()">&#8249; Poprzednia</button>
+    <button class="btn bg-success" onclick="nextCard()">Następna &#8250;</button>
+</div>*@
 
-<div class="card SzyfrowanieVigenerea">
-    <h2>Szyfrowanie Vigenere</h2>
-    <p>Podaj tekst do zaszyfrowania:</p>
-    <input type="text" id="EncryptVigenereInput" class="szyfrowanieTekstuVigenerea-screen">
-    <p>Podaj klucz:</p>
-    <input type="text" id="VigenereKey" class="szyfrowanieTekstuVigenerea-key">
-    <div class="szyfrowanieTekstu-buttons">
-        <button type="button" class="btn bg-success button" onclick="encryptVigenere()">Zaszyfruj</button>
-    </div>
-    <p id="zaszyfrowanyVigenereTekst"></p>
-</div>
-
-<div class="card OdszyfrowanieVigenerea">
-    <h2>Łamacz Vigenere</h2>
-    <p>Podaj tekst do odszyfrowania:</p>
-    <input type="text" id="DecryptVigenereInput" class="lamaczSzyfruVigenerea-screen">
-    <p>Podaj klucz:</p>
-    <input type="text" id="VigenereKeyDecrypt" class="lamaczSzyfruVigenerea-key">
-    <div class="lamaczSzyfru-buttons">
-        <button type="button" class="btn bg-success button" onclick="decryptVigenere()">Odszyfruj</button>
-    </div>
-    <p id="odszyfrowanyVigenereTekst"></p>
-</div>
 
 @section Scripts
     {
     <script type="text/javascript">
+        //zmienna globalna stała, te przesunięcie cezara o 3
+        const CEZAR_SHIFT = 3;
+
+        // szyfrowanie cezara
         function encryptCezar() {
             var inputText = $("#EncryptCezarInput").val();
-            var shiftedText = shiftText(inputText, 3); //przesunięcie o 3 miejsca 
-            $("#zaszyfrowanyCezarTekst").text(shiftedText);
-        }
+            var key = parseInt($("#CezarKey").val());
 
+            if (isNaN(key)) {
+                showError("Wprowadź poprawny klucz (liczbę całkowitą).");
+                return;
+            }
+
+            var shiftedText = shiftText(inputText, key);
+            $("#zaszyfrowanyCezarTekst").text(shiftedText);
+            $("#EncryptCezarInput").val("");
+        }
+        // łamanie szyfru cezara
         function decryptCezar() {
             var inputText = $("#DecryptCezarInput").val();
-            var shiftedText = shiftText(inputText, -3); //-3 bo odszyfrowujemy w drugą stronę
+            var key = parseInt($("#CezarKey").val());
+
+            if (isNaN(key)) {
+                showError("Wprowadź poprawny klucz (liczbę całkowitą).");
+                return;
+            }
+
+            var shiftedText = shiftText(inputText, -key);
             $("#odszyfrowanyCezarTekst").text(shiftedText);
+            $("#DecryptCezarInput").val("");
         }
 
+        // szyfrowanie vigenera
         function encryptVigenere() {
-            var inputText = $("#EncryptVigenereInput").val();
-            var key = $("#VigenereKey").val();
-            var encryptedText = vigenereEncrypt(inputText, key);
-            $("#zaszyfrowanyVigenereTekst").text(encryptedText);
-        }
+            const inputText = getInputText("EncryptVigenereInput");
+            const key = getInputText("VigenereKey");
 
+            if (!validateAlphabetic(key)) {
+                showError("Wprowadź poprawny klucz (tylko litery alfabetu angielskiego).");
+                return;
+            }
+
+            const encryptedText = vigenereEncrypt(inputText, key);
+            displayResult("zaszyfrowanyVigenereTekst", encryptedText);
+            clearInput("EncryptVigenereInput");
+            clearInput("VigenereKey");
+        }
+        // łamanie szyfru vigenera
         function decryptVigenere() {
-            var inputText = $("#DecryptVigenereInput").val();
-            var key = $("#VigenereKeyDecrypt").val();
-            var decryptedText = vigenereDecrypt(inputText, key);
-            $("#odszyfrowanyVigenereTekst").text(decryptedText);
+            const inputText = getInputText("DecryptVigenereInput");
+            const key = getInputText("VigenereKeyDecrypt");
+
+            if (!validateAlphabetic(key)) {
+                showError("Wprowadź poprawny klucz (tylko litery alfabetu angielskiego).");
+                return;
+            }
+
+            const decryptedText = vigenereDecrypt(inputText, key);
+            displayResult("odszyfrowanyVigenereTekst", decryptedText);
+            clearInput("DecryptVigenereInput");
+            clearInput("VigenereKeyDecrypt");
         }
 
-        
+        // funkcja przesuwająca 
         function shiftText(text, shift) {
-            var result = "";//wynik początkowo pusty
-            for (var i = 0; i < text.length; i++) {
-                var charCode = text.charCodeAt(i);//pobiera się kod Unicode dla akutalnego znaku w tekście 
-                if (charCode >= 65 && charCode <= 90) { //sprzawdzamy czy duża litera 
-                    result += String.fromCharCode(((charCode - 65 + shift + 26) % 26) + 65); // tutaj jeśli jest to duża litera to oblicza się nowy kod Unicode 
-                } else if (charCode >= 97 && charCode <= 122) { // tutaj jak mała litera to tak samo
+            let result = "";
+
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i);
+
+                if (isUpperCaseLetter(charCode)) {
+                    result += String.fromCharCode(((charCode - 65 + shift + 26) % 26) + 65);
+                } else if (isLowerCaseLetter(charCode)) {
                     result += String.fromCharCode(((charCode - 97 + shift + 26) % 26) + 97);
                 } else {
                     result += text[i];
                 }
             }
+
             return result;
         }
-        //funkcja szyfrująca vigener`a
-        /*function vigenereEncrypt(plainText, key) {
-            var result = ""; 
-            var keyIndex = 0;
 
-            for (var i = 0; i < plainText.length; i++) {
-                var charCode = plainText.charCodeAt(i); 
+        // funkcja szyfrująca vigenera
+        function vigenereEncrypt(plainText, key) {
+            let result = "";
+            let keyIndex = 0;
 
-                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) { 
-                    var isUpperCase = (charCode >= 65 && charCode <= 90);
-                    var base = isUpperCase ? 65 : 97;  
-                    var shift = key.toUpperCase().charCodeAt(keyIndex) - 65;
-                    var shiftedCharCode = (charCode - base + shift + 26) % 26 + base;
+            for (let i = 0; i < plainText.length; i++) {
+                const charCode = plainText.charCodeAt(i);
+
+                if (isPrintableAscii(charCode)) {
+                    const shift = key.charCodeAt(keyIndex) - 32;
+                    const shiftedCharCode = (charCode - 32 + shift) % 94 + 32;
 
                     result += String.fromCharCode(shiftedCharCode);
                     keyIndex = (keyIndex + 1) % key.length;
@@ -113,30 +169,68 @@
 
             return result;
         }
-       
-        //funkcja odpowiedzialna za złamanie szyfru vigenera
-        function vigenereDecrypt(zaszyfrowanyTekst, key) {
-            var result = "";
-            var keyIndex = 0;
 
-            for (var i = 0; i < zaszyfrowanyTekst.length; i++) {
-                var charCode = zaszyfrowanyTekst.charCodeAt(i);
+        // deszyfrowanie vigenera
+        function vigenereDecrypt(cipherText, key) {
+            let result = "";
+            let keyIndex = 0;
 
-                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
-                    var isUpperCase = (charCode >= 65 && charCode <= 90);
-                    var base = isUpperCase ? 65 : 97;
-                    var shift = klucz.toUpperCase().charCodeAt(kluczIndex) - 65;
-                    var shiftedCharCode = (charCode - base - shift + 26) % 26 + base;
+            for (let i = 0; i < cipherText.length; i++) {
+                const charCode = cipherText.charCodeAt(i);
+
+                if (isPrintableAscii(charCode)) {
+                    const shift = key.charCodeAt(keyIndex) - 32;
+                    const shiftedCharCode = (charCode - 32 - shift + 94) % 94 + 32;
 
                     result += String.fromCharCode(shiftedCharCode);
-                    kluczIndex = (kluczIndex + 1) % klucz.length;
+                    keyIndex = (keyIndex + 1) % key.length;
                 } else {
-                    result += zaszyfrowanyTekst[i];
+                    result += cipherText[i];
                 }
             }
 
             return result;
-        }*/
+        }
+
+        // pobieranie tekstu z pól tekstowych 
+        function getInputText(inputId) {
+            return $(`#${inputId}`).val().trim();
+        }
+
+        // wyświetlanie wyniku
+        function displayResult(resultId, text) {
+            $(`#${resultId}`).text(text);
+        }
+
+        // czyszczenie pola tekstowego
+        function clearInput(inputId) {
+            $(`#${inputId}`).val("");
+        }
+
+        // czy unicode duże litery w ascii
+        function isUpperCaseLetter(charCode) {
+            return charCode >= 65 && charCode <= 90;
+        }
+
+        // czy unicode małe litery
+        function isLowerCaseLetter(charCode) {
+            return charCode >= 97 && charCode <= 122;
+        }
+
+        // sprawdzanie czy unicode odpowiada ascii
+        function isPrintableAscii(charCode) {
+            return charCode >= 33 && charCode <= 126;
+        }
+
+        // sprawdzanie czy są cyfry i polskie znaki 
+        function validateAlphabetic(text) {
+            return /^[a-zA-Z]+$/.test(text);
+        }
+
+        // wyświetlanie błedu 
+        function showError(message) {
+            $("#errorMessage").text(message).show();
+        }
 
 
     </script>
